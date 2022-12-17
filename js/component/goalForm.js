@@ -68,7 +68,7 @@ class GoalForm extends HTMLElement {
         const model = new Model();
         console.log("originalValue=",originalValues);
         console.log("changedValue=",changedValues);
-        // model.updateValues(originalValues, changedValues).then(() => {});
+        model.updateValues(originalValues, changedValues).then(() => {});
         
         return false;
     }    
