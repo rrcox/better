@@ -10,6 +10,7 @@ import store from "./store/store.js";
 
 store.setState('updateLock', false);    
 store.setState('values', []);    
+store.setState('env', 'dev');
 
 //-----------------------------------------------------------------------------
 // Data
@@ -56,7 +57,8 @@ function router(details=null) {
     } else {
         if (view) {
             document.title = view.title;
-            app.innerHTML = view.render();
+            const path = store.getState('env') === 'dev' ? './' : './better/';
+            app.innerHTML = view.render(path);
         } else {
             history.replaceState(null, "", "/");
             router();
