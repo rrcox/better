@@ -1,0 +1,157 @@
+* { 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body { 
+    min-height: 100vh; 
+}
+
+#page {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    background-color: #2962FF;
+    color: white;
+    height: 5vh;
+    justify-content: center;
+    align-items: center;
+}
+
+header div {    
+    font-size: 1.5rem;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 80%;
+}
+
+main {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    height: 85vh;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2962FF;
+    color: white;
+    height: 10vh;
+}
+
+/* footer span {
+    cursor: pointer;
+} */
+
+footer nav {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.icon-caption {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 0.6rem;
+    color: black;
+    text-align: center;
+    margin-top: -6px;
+}
+
+#title {
+    font-size: 3rem;
+    margin-left: 20px;
+    width: 100%;
+    height: 100px;
+}
+
+bar-graph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#canvas {
+    border: 1px solid darkgray;
+    margin-top: 30px;
+}
+
+#legend {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        margin-top: 5px;
+        width: 100%;
+}
+
+#targetColor {
+    width: 20px;
+    height: 10px;
+    margin-top: 2px;
+    border: 1px solid #64B5F6;
+    background-color: #64B5F6;
+    margin-right: 10px;
+}
+
+#actualColor {
+    width: 20px;
+    height: 10px;
+    margin-top: 2px;
+    border: 1px solid #81C784;
+    background-color: #81C784;
+}
+
+#welcome {
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
+}
+
+#logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+}
+
+#logo {
+    max-width: 350px;
+}
+
+#dashboardTitle {
+    text-align: center;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+}
+
+#legend {
+    margin-bottom: 150px;
+}
+
+goal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#goalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 50%;
+    margin-top: 20px;
+    margin-bottom: 150px;
+}
+
+#goalForm input {
+    height: 30px;
+}
