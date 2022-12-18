@@ -1,11 +1,14 @@
 import home from "./view/home.js";
 import dashboard from "./view/dashboard.js";
 import goal from "./view/goal.js";
-import Model from "./model.js";
+import title from "./snippet/title.js";
+import header from "./snippet/header.js";
+import footer from "./snippet/footer.js";
+import model from "./model.js";
 import store from "./store/store.js";
 
 //-----------------------------------------------------------------------------
-// Store
+// Setup store.
 //-----------------------------------------------------------------------------
 
 store.setState('updateLock', false);    
@@ -14,10 +17,10 @@ store.setState('values', []);
 store.setState('env', 'prod');
 
 //-----------------------------------------------------------------------------
-// Data
+// Load data.
 //-----------------------------------------------------------------------------
 
-const model = new Model();
+// const model = new Model();
 
 // let values = [
 //     {order: 1, label: 'Walking', target: 10, actual:  8 },
@@ -38,11 +41,19 @@ model.readValues(values).then( () => {
 });
 
 //-----------------------------------------------------------------------------
-// Routing
+// Initial base render.
+//-----------------------------------------------------------------------------
+
+apptitle.innerHTML = title();
+appheader.innerHTML = header();
+appfooter.innerHTML = footer();
+
+//-----------------------------------------------------------------------------
+// Setup routing.
 //-----------------------------------------------------------------------------
 
 const routes = {
-    "/": { title: "Home", render: home },
+    "/": { title: "Better Every Day - Home", render: home },
     "/dashboard": { title: "Dashboard", render: dashboard },
     "/goal": { title: "Goal", render: goal },
 };
@@ -80,10 +91,15 @@ window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
 
 //-----------------------------------------------------------------------------
-// Synthetic event listener.
+// Add synthetic event listeners.
 //-----------------------------------------------------------------------------
 
 window.addEventListener("barGraphClick", event => {
     history.pushState(null, "", "/goal");
     router(event.detail);
+});
+
+window.addEventListener("goalFormSubmitClick", event => {
+    history.pushState(null, "", "/dashboard");
+    router();
 });

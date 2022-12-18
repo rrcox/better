@@ -2,7 +2,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.14.0/firebas
 import { getFirestore, collection, doc, addDoc, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.14.0/firebase-firestore-lite.js';
 import store from './store/store.js';
 
-export default class Model {
+class Model {
     constructor() {
         this.firebaseConfig = {
             apiKey: "AIzaSyDHvfzLoOzSzsZuS6C-4cM43hsNxbzpNSY",
@@ -35,7 +35,7 @@ export default class Model {
     }
 
     async writeValues(values) {
-        console.log("write values:",values);
+        // console.log("write values:",values);
         try {
             for (const value of values) {
                 const docRef = await addDoc(collection(this.db, "values"), {
@@ -77,3 +77,6 @@ export default class Model {
         }
     }
 }
+
+const model = new Model();
+export default model;

@@ -1,5 +1,5 @@
-import Model from "../model.js";
 import { cloneObjectArray } from "../library.js";
+import model from "../model.js";
 import store from "../store/store.js";
 
 class GoalForm extends HTMLElement {
@@ -65,10 +65,16 @@ class GoalForm extends HTMLElement {
         changedValue.target = +targetChangedValue;
         changedValue.actual = +actualChangedValue;
 
-        const model = new Model();
-        console.log("originalValue=",originalValues);
-        console.log("changedValue=",changedValues);
+        // const model = new Model();
+        // console.log("originalValue=",originalValues);
+        // console.log("changedValue=",changedValues);
         model.updateValues(originalValues, changedValues).then(() => {});
+        
+        this.dispatchEvent(
+            new CustomEvent(
+                'goalFormSubmitClick', 
+                { bubbles: true }
+        ));
         
         return false;
     }    
