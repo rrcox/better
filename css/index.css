@@ -40,28 +40,31 @@ footer {
     /* align-items: center; */
     justify-content: center;
     background-color: #2962FF;
-    color: white;
+    /* color: white; */
+    /* color: black; */
     height: 15vh;
 }
-
-/* footer span {
-    cursor: pointer;
-} */
 
 footer nav {
     display: flex;
     flex-direction: row;
     gap: 20px;
+    margin-top: 5px;
 }
 
 .icon {
     cursor: pointer;
 }
 
+.icon img {
+    color: white;
+}
+
 .icon-caption {
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 0.6rem;
-    color: black;
+    /* color: black; */
+    color: white;
     text-align: center;
     margin-top: -6px;
 }
