@@ -35,7 +35,7 @@ class Model {
     }
 
     async writeValues(values) {
-        // console.log("write values:",values);
+        console.log("write values:",values);
         try {
             for (const value of values) {
                 const docRef = await addDoc(collection(this.db, "values"), {

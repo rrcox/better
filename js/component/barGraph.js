@@ -43,6 +43,7 @@ class BarGraph extends HTMLElement {
         
         // const values = JSON.parse(localStorage.getItem("values") || "[]");
         const values = store.getState('values');
+        console.log("barGraph values:", values);
         const maxProportion = getMaxProportion(values);
 
         drawBarGraph(values, graphHeight, graphWidth, maxProportion, context);  

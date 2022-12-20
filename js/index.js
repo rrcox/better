@@ -1,6 +1,7 @@
 import home from "./view/home.js";
 import dashboard from "./view/dashboard.js";
 import goal from "./view/goal.js";
+import dump from "./view/dump.js";
 import title from "./snippet/title.js";
 import header from "./snippet/header.js";
 import footer from "./snippet/footer.js";
@@ -13,32 +14,47 @@ import store from "./store/store.js";
 
 store.setState('updateLock', false);    
 store.setState('values', []);    
-// store.setState('env', 'dev');
-store.setState('env', 'prod');
+store.setState('env', 'dev');
+// store.setState('env', 'prod');
 
 //-----------------------------------------------------------------------------
 // Load data.
 //-----------------------------------------------------------------------------
 
-// const model = new Model();
-
+// Test scenario
 // let values = [
 //     {order: 1, label: 'Walking', target: 10, actual:  8 },
 //     {order: 2, label: 'Situps',  target: 50, actual: 60 },
 //     {order: 3, label: 'Pushups', target: 25, actual: 23 },
 //     {order: 4, label: 'Chinups', target: 10, actual:  4 },
 // ];
-// model.writeValues(values).then( () => {}); 
 
-let values = store.getState('values');
-// localStorage.clear();
+// const load = async () => {
+//     await model.writeValues(values);
+//     store.setState('values', values);
+//     values = store.getState('values');
+// };
 
-model.readValues(values).then( () => {
-    // localStorage.setItem("values", JSON.stringify(values));
-    // values = JSON.parse(localStorage.getItem("values") || "[]");
+//Prod scenario
+const load = async () => {
+    let values = [];
+    await model.readValues(values);
     store.setState('values', values);
     values = store.getState('values');
-});
+};
+
+load();
+
+// Will be deleted
+// let values = store.getState('values');
+// localStorage.clear();
+// console.log("starting read");
+// model.readValues(values).then( () => {
+//     // localStorage.setItem("values", JSON.stringify(values));
+//     // values = JSON.parse(localStorage.getItem("values") || "[]");
+//     store.setState('values', values);
+//     values = store.getState('values');
+// });
 
 //-----------------------------------------------------------------------------
 // Initial base render.
@@ -56,6 +72,7 @@ const routes = {
     "/": { title: "Better Every Day - Home", render: home },
     "/dashboard": { title: "Dashboard", render: dashboard },
     "/goal": { title: "Goal", render: goal },
+    "/dump": { title: "Dump", render: dump },
 };
 
 function router(details=null) {
@@ -81,7 +98,6 @@ function router(details=null) {
 document.querySelectorAll('.page').forEach(page => {
     page.addEventListener("click", event => {
         event.preventDefault();
-        console.log("reg:", event.currentTarget.href);
         history.pushState(null, "", event.currentTarget.href);
         router();
     })

@@ -13,47 +13,87 @@ class GoalForm extends HTMLElement {
     
     displayForm() {
         this.innerHTML = `
-            <form id="goalForm">
-                <label for="target">Label*:</label>
-                <input
-                    type="text"
-                    id="label"
-                    name="label"
-                    value="${this.label}"
-                    required
-                >
-                <label for="target">Target*:</label>
-                <input
-                    type="text"
-                    id="target"
-                    name="target"
-                    value="${this.target}"
-                    required
-                >
-                <label for="actual">Actual*:</label>
-                <input
-                    type="text"
-                    id="actual"
-                    name="actual"
-                    value="${this.actual}"
-                    required
-                >
-                <input type="submit">
-                <div id="formMessage"></div>
-            </form>
-            <h1>Goal</h1>
+            <div class="container">
+                <div class="form">
+                    <form class="form__goal">
+                        <h1>Goals</h1>
+
+                        <br />
+
+                        <div class="floating">
+                            <input 
+                                id="input__label" 
+                                class="floating__input" 
+                                name="label" 
+                                type="text" 
+                                placeholder="label" 
+                                value="${this.label}"
+                            />
+                            <label 
+                                for="input__label" 
+                                class="floating__label" 
+                                data-content="Label">
+                                <span class="hidden--visually">Label</span>
+                            </label>
+                        </div>
+
+                        <div class="floating">
+                            <input 
+                                id="input__target" 
+                                class="floating__input" 
+                                name="target" 
+                                type="text" 
+                                placeholder="target" 
+                                value="${this.target}"
+                            />
+                            <label 
+                                for="input__target" 
+                                class="floating__label" 
+                                data-content="Target"
+                            >
+                                <span class="hidden--visually">Target</span>
+                            </label>
+                        </div>
+
+                        <div class="floating">
+                            <input 
+                                id="input__actual" 
+                                class="floating__input" 
+                                name="actual" 
+                                type="text" 
+                                placeholder="actual" 
+                                value="${this.actual}"
+                            />
+                            <label 
+                                for="input__actual" 
+                                class="floating__label" 
+                                data-content="Actual"
+                            >
+                                <span class="hidden--visually">Actual</span>
+                            </label>
+                        </div>
+
+                        <input class="button" type="submit" value="Save Goal">
+                        <!-- <button class="button">Save Goal</button> -->
+                    </form>
+                </div>
+            </div>
         `;
         
-        const form = document.getElementById('goalForm');
+        const form = document.getElementsByClassName('form__goal')[0];
         form.addEventListener("submit", this.processForm);
     }
     
     processForm(e) {
         if (e.preventDefault) e.preventDefault();
         
-        const labelChangedValue = document.getElementById('label').value;
-        const targetChangedValue = document.getElementById('target').value;
-        const actualChangedValue = document.getElementById('actual').value;
+        const button = document.getElementsByClassName('button')[0];
+        button.value = "Saving ...";
+        button.setAttribute('disabled','');
+
+        const labelChangedValue = document.getElementById('input__label').value;
+        const targetChangedValue = document.getElementById('input__target').value;
+        const actualChangedValue = document.getElementById('input__actual').value;
                
         // const originalValues = JSON.parse(localStorage.getItem("values") || "[]");
         const originalValues = store.getState('values');
@@ -68,14 +108,17 @@ class GoalForm extends HTMLElement {
         // const model = new Model();
         // console.log("originalValue=",originalValues);
         // console.log("changedValue=",changedValues);
-        model.updateValues(originalValues, changedValues).then(() => {});
-        
-        this.dispatchEvent(
-            new CustomEvent(
-                'goalFormSubmitClick', 
-                { bubbles: true }
-        ));
-        
+        const update = async () => {
+            store.setState('values', changedValues);
+            await model.updateValues(originalValues, changedValues);
+            this.dispatchEvent(
+                new CustomEvent(
+                    'goalFormSubmitClick', 
+                    { bubbles: true }
+            ));
+        }
+        update();
+
         return false;
     }    
 }

@@ -10,6 +10,10 @@ class Store {
     getState(prop) {
         return this.state[prop];
     } 
+
+    dump() {
+        return JSON.stringify(this.state);
+    }
 }
 
 
