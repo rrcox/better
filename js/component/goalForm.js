@@ -43,6 +43,7 @@ class GoalForm extends HTMLElement {
                                 class="floating__input" 
                                 name="target" 
                                 type="text" 
+                                inputmode="numeric"
                                 placeholder="target" 
                                 value="${this.target}"
                             />
@@ -61,6 +62,7 @@ class GoalForm extends HTMLElement {
                                 class="floating__input" 
                                 name="actual" 
                                 type="text" 
+                                inputmode="numeric"
                                 placeholder="actual" 
                                 value="${this.actual}"
                             />
