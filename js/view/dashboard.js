@@ -1,6 +1,6 @@
-import "../component/barGraph.js";
+import "../component/barChart.js";
 
 export default () => `
-    <bar-graph></bar-graph>    
+    <bar-chart></bar-chart>    
     <h3 id="dashboardTitle">Dashboard</h3>
 `;

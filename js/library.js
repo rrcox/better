@@ -1,6 +1,6 @@
 import store from "./store/store.js";
 
-export function drawBarGraph(values, height, width, maxProportion, context) {
+export function drawBarChart(values, height, width, maxProportion, context) {
     const topGapPct = 0.85;
     const barWidth = Math.floor(width / ((values.length * 2) + values.length + 1)); 
     const xOffset = barWidth;

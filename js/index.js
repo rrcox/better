@@ -110,7 +110,7 @@ window.addEventListener("DOMContentLoaded", router);
 // Add synthetic event listeners.
 //-----------------------------------------------------------------------------
 
-window.addEventListener("barGraphClick", event => {
+window.addEventListener("barChartClick", event => {
     history.pushState(null, "", "/goal");
     router(event.detail);
 });

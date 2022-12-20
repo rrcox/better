@@ -1,7 +1,7 @@
-import { drawBarGraph, getMaxProportion } from "../library.js";
+import { drawBarChart, getMaxProportion } from "../library.js";
 import store from "../store/store.js";
 
-class BarGraph extends HTMLElement {
+class BarChart extends HTMLElement {
     constructor() {
         super();
         this.resize();
@@ -18,15 +18,15 @@ class BarGraph extends HTMLElement {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         
-        const graphWidth = this.width * 0.8;
-        const graphHeight = this.height * 0.4;
+        const chartWidth = this.width * 0.8;
+        const chartHeight = this.height * 0.4;
         
         this.innerHTML =  `
             <div id="canvas-div">
                 <canvas 
                     id="canvas"
-                    width=${graphWidth} 
-                    height=${graphHeight}
+                    width=${chartWidth} 
+                    height=${chartHeight}
                 >
                 </canvas>
             </div>
@@ -43,14 +43,14 @@ class BarGraph extends HTMLElement {
         
         // const values = JSON.parse(localStorage.getItem("values") || "[]");
         const values = store.getState('values');
-        console.log("barGraph values:", values);
+        console.log("barChart values:", values);
         const maxProportion = getMaxProportion(values);
 
-        drawBarGraph(values, graphHeight, graphWidth, maxProportion, context);  
-        this.addBarGraphListener();      
+        drawBarChart(values, chartHeight, chartWidth, maxProportion, context);  
+        this.addBarChartListener();      
     }
 
-    addBarGraphListener() {
+    addBarChartListener() {
         // const values = JSON.parse(localStorage.getItem("values") || "[]");
         const values = store.getState('values');
         const canvas = document.getElementById("canvas")
@@ -74,7 +74,7 @@ class BarGraph extends HTMLElement {
                 {
                     this.dispatchEvent(
                         new CustomEvent(
-                            'barGraphClick', 
+                            'barChartClick', 
                             { 
                                 bubbles: true, 
                                 detail: { 
@@ -88,4 +88,4 @@ class BarGraph extends HTMLElement {
     }
 }
 
-customElements.define("bar-graph", BarGraph);
+customElements.define("bar-chart", BarChart);
