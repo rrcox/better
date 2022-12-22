@@ -10,11 +10,11 @@ class BarChart extends HTMLElement {
     
     addResizeListener() {
         window.addEventListener("resize", (event) => {
-            this.resize();
+            this.resize(false);
         });
     }
 
-    resize() {
+    resize(withAnimation = true) {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         
@@ -43,10 +43,10 @@ class BarChart extends HTMLElement {
         
         // const values = JSON.parse(localStorage.getItem("values") || "[]");
         const values = store.getState('values');
-        console.log("barChart values:", values);
+        // console.log("barChart values:", values);
         const maxProportion = getMaxProportion(values);
 
-        drawBarChart(values, chartHeight, chartWidth, maxProportion, context);  
+        drawBarChart(values, chartHeight, chartWidth, maxProportion, context, withAnimation);  
         this.addBarChartListener();      
     }
 
