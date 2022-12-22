@@ -17,7 +17,7 @@ function setSettings(values, height, width, maxProportion, context, withAnimatio
     const barWidth = Math.floor(width / ((values.length * 2) + values.length + 1)); 
     const xOffset = barWidth;
     const barGap = barWidth;
-    const drawStart = 1;
+    const drawCurrent = 1;
     const drawStop = 100;
     const animationSpeed = 5;
     const targetGradStartColor = "#64B5F6";
@@ -27,6 +27,8 @@ function setSettings(values, height, width, maxProportion, context, withAnimatio
     const labelFont = "14px Arial";
     const labelColor = "black";
     const labelAlign = "center";
+    const labelSpace = 20;
+    const distance = 0;
 
     settings = {
         topGapPct, 
@@ -34,7 +36,7 @@ function setSettings(values, height, width, maxProportion, context, withAnimatio
         xOffset, 
         barGap, 
         height, 
-        drawStart, 
+        drawCurrent, 
         drawStop,        
         animationSpeed, 
         maxProportion, 
@@ -45,6 +47,8 @@ function setSettings(values, height, width, maxProportion, context, withAnimatio
         labelFont,
         labelColor,
         labelAlign,
+        labelSpace,
+        distance,
         context, 
         values,
     };
@@ -65,6 +69,7 @@ function drawAnimatedBars(withAnimation = true) {
     const targetGradStopColor = settings.targetGradStopColor;
     const actualGradStartColor = settings.actualGradStartColor;
     const actualGradStopColor = settings.actualGradStopColor;
+    const labelSpace = settings.labelSpace;
 
     let x;
     let y;
@@ -74,6 +79,8 @@ function drawAnimatedBars(withAnimation = true) {
     let targetGradient;
     let actualGradient;
     let location;
+    let finalTargetHeight;
+    let finalActualHeight;
 
     settings.values.forEach((value, i) => {
         proportion = 1 - value.actual / value.target ;
@@ -86,14 +93,17 @@ function drawAnimatedBars(withAnimation = true) {
             actualHeight = targetHeight * (1 - proportion);
         }
 
+        finalTargetHeight = targetHeight;
+        finalActualHeight = actualHeight;
+        
         if (withAnimation) {
-            targetHeight *= (settings.drawStart * (1 / drawStop));
-            actualHeight *= (settings.drawStart * (1 / drawStop));
+            targetHeight = getCubicEase(settings.drawCurrent, 0, finalTargetHeight, drawStop)
+            actualHeight = getCubicEase(settings.drawCurrent, 0, finalActualHeight, drawStop)
         }
 
         x = xOffset + (i * barWidth * 2) + (i * barGap);
-        y = height - targetHeight - 20;
-        
+        y = height - targetHeight - labelSpace;
+
         targetGradient = context.createLinearGradient(x, 0, x + barWidth, 0);
         targetGradient.addColorStop(0, targetGradStartColor);
         targetGradient.addColorStop(1, targetGradStopColor);
@@ -104,7 +114,7 @@ function drawAnimatedBars(withAnimation = true) {
         value['targetLocation'] = location;
 
         x = xOffset + barWidth + (i * barWidth * 2) + (i * barGap);
-        y = height - actualHeight - 20;
+        y = height - actualHeight - labelSpace;
         
         actualGradient = context.createLinearGradient(x, 0, x + barWidth, 0);
         actualGradient.addColorStop(0, actualGradStartColor);
@@ -117,11 +127,23 @@ function drawAnimatedBars(withAnimation = true) {
     });
 
     if (withAnimation) {
-        if (settings.drawStart < drawStop) {
-            settings.drawStart++;
+        if (settings.drawCurrent < drawStop) {
+            settings.drawCurrent++;
             setTimeout(drawAnimatedBars, animationSpeed);
         }
     }
+}
+
+function getCubicEase(currentHeight, startPos, finalHeight, totalSteps) {
+    currentHeight /= totalSteps/2;
+
+    if (currentHeight < 1) {
+        return (finalHeight / 2) * (Math.pow(currentHeight, 3)) + startPos;
+    }
+
+    currentHeight -= 2;
+
+    return (finalHeight / 2) * (Math.pow(currentHeight, 3) + 2) + startPos;
 }
 
 function drawBarLabels() {
