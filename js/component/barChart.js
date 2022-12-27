@@ -47,11 +47,10 @@ class BarChart extends HTMLElement {
         const maxProportion = getMaxProportion(values);
 
         drawBarChart(values, chartHeight, chartWidth, maxProportion, context, withAnimation);  
-        this.addBarChartListener();      
+        this.addBarChartListeners();      
     }
 
-    addBarChartListener() {
-        // const values = JSON.parse(localStorage.getItem("values") || "[]");
+    addBarChartListeners() {
         const values = store.getState('values');
         const canvas = document.getElementById("canvas")
         
@@ -77,13 +76,80 @@ class BarChart extends HTMLElement {
                             'barChartClick', 
                             { 
                                 bubbles: true, 
-                                detail: { 
+                                detail: {
+                                    id: value.id, 
                                     label: value.label,
                                     target: value.target,
                                     actual: value.actual
                     }}));
                 }
             })
+        });
+
+        canvas.addEventListener("mousemove", (event) => {
+            let x = event.offsetX;
+            let y = event.offsetY;
+            let cursorType = 'default';
+
+            for (let i = 0; i < values.length; i++) {
+                let value = values[i];
+
+                let tx = value.targetLocation.x;
+                let ty = value.targetLocation.y;
+                let tw = value.targetLocation.w;
+                let th = value.targetLocation.h;
+                let ax = value.actualLocation.x;
+                let ay = value.actualLocation.y;
+                let aw = value.actualLocation.w;
+                let ah = value.actualLocation.h;
+
+                if ((x >= tx && x <= tx + tw && y >= ty && y <= ty + th) ||
+                    (x >= ax && x <= ax + aw && y >= ay && y <= ay + ah)) 
+                {
+                    cursorType = 'pointer';
+                    break;
+                }
+            }
+            
+            this.style.cursor = cursorType;
+
+            // values.every(value => {
+            //     let tx = value.targetLocation.x;
+            //     let ty = value.targetLocation.y;
+            //     let tw = value.targetLocation.w;
+            //     let th = value.targetLocation.h;
+            //     let ax = value.actualLocation.x;
+            //     let ay = value.actualLocation.y;
+            //     let aw = value.actualLocation.w;
+            //     let ah = value.actualLocation.h;
+
+            //     if ((x >= tx && x <= tx + tw && y >= ty && y <= ty + th) ||
+            //         (x >= ax && x <= ax + aw && y >= ay && y <= ay + ah)) 
+            //     {
+            //         console.log("in bar");
+            //         inShape = true;
+            //         cursorType = 'pointer';
+            //         return false;
+
+            //         // this.style.cursor = 'pointer';
+            //         // return false;    
+            //         // this.dispatchEvent(
+            //         //     new CustomEvent(
+            //         //         'barChartClick', 
+            //         //         { 
+            //         //             bubbles: true, 
+            //         //             detail: {
+            //         //                 id: value.id, 
+            //         //                 label: value.label,
+            //         //                 target: value.target,
+            //         //                 actual: value.actual
+            //         // }}));
+            //     }                 
+            // })
+
+            // if (inShape) {
+            //     this.style.cursor = cursorType;
+            // }
         });
     }
 }

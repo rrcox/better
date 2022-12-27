@@ -71,7 +71,6 @@ class Model {
             await this.writeValues(changedValues);
             const values = [];
             await this.readValues(values)
-            // localStorage.setItem("values", JSON.stringify(values)); 
             store.setState('values', values);
             store.setState('updateLock', false);
         }

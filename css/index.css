@@ -15,7 +15,7 @@
 }
 
 body { 
-    min-height: 100vh; 
+    min-height: 100vh;
 }
 
 /* #page {
@@ -48,7 +48,8 @@ header div {
 /*****************************************************************************/
 
 main {
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
+    overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
     height: 80vh;
@@ -59,20 +60,36 @@ main {
 /*****************************************************************************/
 
 footer {
-    /* display: flex; */
     display: grid;
-    grid-template-rows: 2;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
     justify-content: center;
     background-color: #2962FF;
     height: 15vh;
+
+    min-width: 100%;
 }
 
 footer nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 20px;
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     margin-top: 5px;
+  }
+  
+footer .center {
+  grid-column: 2/3;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+footer .right {
+  grid-column: 3/4;
+  display: flex;
+  justify-content:flex-end;
+  margin-right: 10px;
+  position: relative;
 }
 
 .icon {
@@ -81,6 +98,11 @@ footer nav {
 
 .icon img {
     color: white;
+}
+
+#more {
+  /* margin-left: auto; */
+  justify-self: flex-end;
 }
 
 .icon-caption {
@@ -92,18 +114,13 @@ footer nav {
 }
 
 .copyright {
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: darkgray;
-    font-size: 0.7rem;
-    margin-top: 25px;
+  grid-row: 2/3;
+  justify-self: center;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: darkgray;
+  font-size: 0.7rem;
+  margin-top: 25px;
 }
-
-/* #title {
-    font-size: 3rem;
-    margin-left: 20px;
-    width: 100%;
-    height: 100px;
-} */
 
 bar-chart {
     display: flex;
@@ -167,6 +184,19 @@ bar-chart {
 
 #legend {
     margin-bottom: 150px;
+}
+
+#addGoal {
+  position: fixed;
+  bottom: 18vh;
+  right: 7vw;
+  background-color: #2962FF;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #2562FF;
+  border-radius: 50%;
+  box-shadow: 2px 2px 8px 3px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
 }
 
 /* goal-form {
@@ -337,6 +367,7 @@ input {
   font-size: 1.25rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  cursor: pointer;
 }
 
 .button:disabled {
@@ -358,6 +389,42 @@ input {
 
 .form h1 {
   text-align: center;
+}
+
+/*****************************************************************************/
+/* Dropdown menu.                                                            */
+/*****************************************************************************/
+
+.choices {
+  /* display: none; */
+  font-family: Roboto, Arial, sans-serif;
+  position: absolute;
+  /* display: inline-block; */
+  /* height: 100px; */
+  min-width: 150px;
+  bottom: 10vh;
+  right: 2vw;
+  background-color: #f1f1f1;
+  box-shadow: 2px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 0;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.choice {
+  padding: 12px 16px;
+  /* padding-bottom: 5px; */
+  /* display: none; */
+  /* position: absolute;
+  width: 100px;
+  height: 100px;
+  min-width: 160px;
+  color: red; */
+}
+
+.choice:hover {
+  background-color: lightgray;
+  cursor: pointer;
+  /* min-width: 100%; */
 }
 
 /*****************************************************************************/

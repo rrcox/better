@@ -7,6 +7,7 @@ import header from "./snippet/header.js";
 import footer from "./snippet/footer.js";
 import model from "./model.js";
 import store from "./store/store.js";
+import { renderDropdown, removeDropdown, deleteGoal } from "./library.js";
 
 //-----------------------------------------------------------------------------
 // Setup store.
@@ -14,8 +15,8 @@ import store from "./store/store.js";
 
 store.setState('updateLock', false);    
 store.setState('values', []);    
-// store.setState('env', 'dev');
-store.setState('env', 'prod');
+store.setState('env', 'dev');
+// store.setState('env', 'prod');
 
 //-----------------------------------------------------------------------------
 // Load data.
@@ -42,7 +43,6 @@ const load = async () => {
     store.setState('values', values);
     values = store.getState('values');
 };
-
 load();
 
 // Will be deleted
@@ -76,6 +76,7 @@ const routes = {
 };
 
 function router(details=null) {
+    removeDropdown();
     let view = routes[location.pathname];
 
     if(details && !details.type) {
@@ -95,6 +96,10 @@ function router(details=null) {
     }
 };
 
+//-----------------------------------------------------------------------------
+// Add page listeners for routes. 
+//-----------------------------------------------------------------------------
+
 document.querySelectorAll('.page').forEach(page => {
     page.addEventListener("click", event => {
         event.preventDefault();
@@ -107,6 +112,24 @@ window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
 
 //-----------------------------------------------------------------------------
+// Add footer menu context-sensitive event listener.
+//-----------------------------------------------------------------------------
+
+document.querySelector('.menu')
+    .addEventListener("click", event => {
+        if (location.pathname === "/goal") {
+            if (document.querySelectorAll('div.choices').length > 0) {
+                removeDropdown();
+            } else {
+                renderDropdown(location.pathname);
+            }
+            
+            // console.log("deleting goal...");
+            // deleteGoal();    
+        }
+});
+
+//-----------------------------------------------------------------------------
 // Add synthetic event listeners.
 //-----------------------------------------------------------------------------
 
@@ -116,6 +139,11 @@ window.addEventListener("barChartClick", event => {
 });
 
 window.addEventListener("goalFormSubmitClick", event => {
+    history.pushState(null, "", "/dashboard");
+    router();
+});
+
+window.addEventListener("goalDeleteClick", event => {
     history.pushState(null, "", "/dashboard");
     router();
 });

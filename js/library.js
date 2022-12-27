@@ -1,4 +1,5 @@
 import store from "./store/store.js";
+import model from "./model.js";
 
 let settings;
 
@@ -199,4 +200,75 @@ export function cloneObjectArray(original) {
         return {...obj}
     });
     return clone;
+}
+
+export function deleteGoal(element) {
+    try{
+        const id = document.querySelector('#id').textContent;
+        console.log("id:",id);
+        const originalValues = store.getState('values');
+        const changedValues = originalValues.filter(value => value.id !== id);
+        console.log("originalValue=",originalValues);
+        console.log("changedValue=",changedValues);
+        updateAppValues(originalValues, changedValues, "goalDeleteClick", element);
+    } catch(error) {
+        console.error("Error deleting document:", error);
+    }
+}
+
+export function updateAppValues (originalValues, changedValues, customEvent, element) {
+    const update = async () => {
+        console.log('"element (this):',element);
+        store.setState('values', changedValues);
+        await model.updateValues(originalValues, changedValues);
+        element.dispatchEvent(
+            new CustomEvent(
+                customEvent, 
+                { bubbles: true }
+        ));
+    }
+    update();
+}
+
+export function renderDropdown(pathname) {
+    console.log("render dropdown...")
+    const menu = document.querySelector('.right ');
+    const choices = document.createElement('div');
+    choices.className = "choices";
+    menu.appendChild(choices);
+    
+    switch(pathname) {
+        case "/goal":
+            const choice1 = document.createElement('div');
+            choice1.className = "choice";
+            choice1.textContent = "Delete Goal";
+            const choice2 = document.createElement('div');
+            choice2.className = "choice";
+            choice2.textContent = "Other Stuff";
+            choices.appendChild(choice1);
+            choices.appendChild(choice2);
+
+            choice1.addEventListener("click", event => {
+                console.log("currentTarget:",event.currentTarget);
+                console.log("target:",event.target.parentNode);
+                
+                // event.stopPropagation();
+                deleteGoal(choice1);
+            });
+            
+            // document.addEventListener("click", );
+
+            break;
+    }
+}
+
+function cleanupMenu() {
+    
+}
+
+export function removeDropdown() {
+    let choices = document.querySelector('.choices');
+    if (choices) {
+        choices.parentNode.removeChild(choices);
+    }
 }
