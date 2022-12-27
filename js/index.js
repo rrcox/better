@@ -83,7 +83,8 @@ function router(details=null) {
         view = routes["/goal"];
         history.replaceState(null, "", "/goal");
         document.title = view.title;
-        app.innerHTML = view.render(details);
+        const path = store.getState('env') === 'dev' ? './' : './better/';
+        app.innerHTML = view.render(path, details);
     } else {
         if (view) {
             document.title = view.title;

@@ -10,6 +10,7 @@ class GoalForm extends HTMLElement {
         this.label = this.attributes.label.value;
         this.target = this.attributes.target.value;
         this.actual = this.attributes.actual.value;
+        this.path = this.attributes.path.value;
         this.displayForm();
     }
     
@@ -81,7 +82,7 @@ class GoalForm extends HTMLElement {
                         <input class="button" type="submit" value="Save Goal">
                         <!-- <button class="button">Save Goal</button> -->
                     </form>
-                    <div id="addGoal"><img src="../../images/plus.svg"></div>
+                    <div id="addGoal"><img src="${this.path}images/plus.svg"></div>
                 </div>
             </div>
         `;
