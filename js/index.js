@@ -15,8 +15,8 @@ import { renderDropdown, removeDropdown, deleteGoal } from "./library.js";
 
 store.setState('updateLock', false);    
 store.setState('values', []);    
-store.setState('env', 'dev');
-// store.setState('env', 'prod');
+// store.setState('env', 'dev');
+store.setState('env', 'prod');
 
 //-----------------------------------------------------------------------------
 // Load data.
