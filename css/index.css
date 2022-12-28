@@ -438,3 +438,10 @@ input {
   }
 }
 
+@media only screen and (max-height: 45rem) {
+  #addGoal {
+    display: none;
+  }
+}
+
+
