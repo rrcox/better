@@ -7,7 +7,7 @@ import header from "./snippet/header.js";
 import footer from "./snippet/footer.js";
 import model from "./model.js";
 import store from "./store/store.js";
-import { renderDropdown, removeDropdown, deleteGoal } from "./library.js";
+import { renderDropdown, removeDropdown, deleteGoal, toggleFullScreen } from "./library.js";
 
 //-----------------------------------------------------------------------------
 // Setup store.
@@ -155,10 +155,21 @@ window.addEventListener("goalDeleteClick", event => {
 
 const fullScreen = document.querySelector(".fullscreen");
 fullScreen.addEventListener("click", event => {
-    const body = document.querySelector("body");
-    if (body.requestFullscreen) {
-      body.requestFullscreen();
-    }
+    toggleFullScreen();
 });
+            
+// function toggleFullScreen() {
+//     const fullscreen = document.querySelector(".fullscreen");
+//     const caption = document.querySelector(".fullscreen + .icon-caption");
+//     if (!document.fullscreenElement) {
+//         fullscreen.innerHTML = `<img src="./images/exit.svg" alt="exit full screen">`;
+//         caption.textContent = "Exit Full"
+//         document.documentElement.requestFullscreen();
+//     } else if (document.exitFullscreen) {
+//         fullscreen.innerHTML = `<img src="./images/fullscreen.svg" alt="full screen">`;  
+//         caption.textContent = "Full Screen"
+//         document.exitFullscreen();
+//     }
+// }
 
 
