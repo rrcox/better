@@ -269,15 +269,15 @@ export function removeDropdown() {
     }
 }
 
-export function toggleFullScreen() {
+export function toggleFullScreen(path) {
     const fullscreen = document.querySelector(".fullscreen");
     const caption = document.querySelector(".fullscreen + .icon-caption");
     if (!document.fullscreenElement) {
-        fullscreen.innerHTML = `<img src="./images/exit.svg" alt="exit full screen">`;
+        fullscreen.innerHTML = `<img src="${path}images/exit.svg" alt="exit full screen">`;
         caption.textContent = "Exit Full"
         document.documentElement.requestFullscreen();
     } else if (document.exitFullscreen) {
-        fullscreen.innerHTML = `<img src="./images/fullscreen.svg" alt="full screen">`;  
+        fullscreen.innerHTML = `<img src="${path}images/fullscreen.svg" alt="full screen">`;  
         caption.textContent = "Full Screen"
         document.exitFullscreen();
     }

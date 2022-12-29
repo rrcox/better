@@ -59,10 +59,11 @@ load();
 //-----------------------------------------------------------------------------
 // Initial base render.
 //-----------------------------------------------------------------------------
+const path = store.getState('env') === 'dev' ? './' : './better/';
 
 apptitle.innerHTML = title();
 appheader.innerHTML = header();
-appfooter.innerHTML = footer();
+appfooter.innerHTML = footer(path);
 
 //-----------------------------------------------------------------------------
 // Setup routing.
@@ -155,7 +156,8 @@ window.addEventListener("goalDeleteClick", event => {
 
 const fullScreen = document.querySelector(".fullscreen");
 fullScreen.addEventListener("click", event => {
-    toggleFullScreen();
+    const path = store.getState('env') === 'dev' ? './' : './better/';
+    toggleFullScreen(path);
 });
             
 // function toggleFullScreen() {

@@ -1,4 +1,4 @@
-export default () => `
+export default (path) => `
 <nav>
     <div class="center">
         <div class="icon">
@@ -21,7 +21,7 @@ export default () => `
         </div>
         <div class="icon">
             <div class="fullscreen">
-                <img src="./images/fullscreen.svg", alt="full screen">
+                <img src="${path}images/fullscreen.svg", alt="full screen">
             </div>
             <div class="icon-caption">Full Screen</div>
         </div>
