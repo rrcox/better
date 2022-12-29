@@ -19,6 +19,12 @@ export default () => `
             </a>
             <div class="icon-caption">Dump</div>
         </div>
+        <div class="icon">
+            <div class="fullscreen">
+                <img src="./images/fullscreen.svg", alt="full screen">
+            </div>
+            <div class="icon-caption">Full Screen</div>
+        </div>
     </div>
     <div class="right">
         <div class="icon">

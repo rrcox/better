@@ -148,3 +148,17 @@ window.addEventListener("goalDeleteClick", event => {
     history.pushState(null, "", "/dashboard");
     router();
 });
+
+//-----------------------------------------------------------------------------
+// Add fullscreen listener.
+//-----------------------------------------------------------------------------
+
+const fullScreen = document.querySelector(".fullscreen");
+fullScreen.addEventListener("click", event => {
+    const body = document.querySelector("body");
+    if (body.requestFullscreen) {
+      body.requestFullscreen();
+    }
+});
+
+

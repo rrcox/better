@@ -18,6 +18,10 @@ body {
     min-height: 100vh;
 }
 
+body::backdrop {
+  background-color: white;
+}
+
 /* #page {
     display: flex;
     flex-direction: column;
