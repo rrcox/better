@@ -2,12 +2,12 @@ import home from "./view/home.js";
 import dashboard from "./view/dashboard.js";
 import goal from "./view/goal.js";
 import dump from "./view/dump.js";
+import appFooter from "./view/appFooter.js";
 import title from "./snippet/title.js";
 import header from "./snippet/header.js";
-import footer from "./snippet/footer.js";
 import model from "./model.js";
 import store from "./store/store.js";
-import { renderDropdown, removeDropdown, deleteGoal, toggleFullScreen } from "./library.js";
+import { removeDropdown, toggleFullScreen } from "./library.js";
 
 //-----------------------------------------------------------------------------
 // Setup store.
@@ -45,25 +45,15 @@ const load = async () => {
 };
 load();
 
-// Will be deleted
-// let values = store.getState('values');
-// localStorage.clear();
-// console.log("starting read");
-// model.readValues(values).then( () => {
-//     // localStorage.setItem("values", JSON.stringify(values));
-//     // values = JSON.parse(localStorage.getItem("values") || "[]");
-//     store.setState('values', values);
-//     values = store.getState('values');
-// });
-
 //-----------------------------------------------------------------------------
 // Initial base render.
 //-----------------------------------------------------------------------------
+
 const path = store.getState('env') === 'dev' ? './' : './better/';
 
 apptitle.innerHTML = title();
 appheader.innerHTML = header();
-appfooter.innerHTML = footer(path);
+appfooter.innerHTML = appFooter(path);
 
 //-----------------------------------------------------------------------------
 // Setup routing.
@@ -77,19 +67,16 @@ const routes = {
 };
 
 function router(details=null) {
-    removeDropdown();
     let view = routes[location.pathname];
 
     if(details && !details.type) {
         view = routes["/goal"];
         history.replaceState(null, "", "/goal");
         document.title = view.title;
-        const path = store.getState('env') === 'dev' ? './' : './better/';
         app.innerHTML = view.render(path, details);
     } else {
         if (view) {
             document.title = view.title;
-            const path = store.getState('env') === 'dev' ? './' : './better/';
             app.innerHTML = view.render(path);
         } else {
             history.replaceState(null, "", "/");
@@ -114,24 +101,6 @@ window.addEventListener("popstate", router);
 window.addEventListener("DOMContentLoaded", router);
 
 //-----------------------------------------------------------------------------
-// Add footer menu context-sensitive event listener.
-//-----------------------------------------------------------------------------
-
-document.querySelector('.menu')
-    .addEventListener("click", event => {
-        if (location.pathname === "/goal") {
-            if (document.querySelectorAll('div.choices').length > 0) {
-                removeDropdown();
-            } else {
-                renderDropdown(location.pathname);
-            }
-            
-            // console.log("deleting goal...");
-            // deleteGoal();    
-        }
-});
-
-//-----------------------------------------------------------------------------
 // Add synthetic event listeners.
 //-----------------------------------------------------------------------------
 
@@ -146,6 +115,7 @@ window.addEventListener("goalFormSubmitClick", event => {
 });
 
 window.addEventListener("goalDeleteClick", event => {
+    removeDropdown();
     history.pushState(null, "", "/dashboard");
     router();
 });
@@ -156,22 +126,7 @@ window.addEventListener("goalDeleteClick", event => {
 
 const fullScreen = document.querySelector(".fullscreen");
 fullScreen.addEventListener("click", event => {
-    const path = store.getState('env') === 'dev' ? './' : './better/';
     toggleFullScreen(path);
 });
             
-// function toggleFullScreen() {
-//     const fullscreen = document.querySelector(".fullscreen");
-//     const caption = document.querySelector(".fullscreen + .icon-caption");
-//     if (!document.fullscreenElement) {
-//         fullscreen.innerHTML = `<img src="./images/exit.svg" alt="exit full screen">`;
-//         caption.textContent = "Exit Full"
-//         document.documentElement.requestFullscreen();
-//     } else if (document.exitFullscreen) {
-//         fullscreen.innerHTML = `<img src="./images/fullscreen.svg" alt="full screen">`;  
-//         caption.textContent = "Full Screen"
-//         document.exitFullscreen();
-//     }
-// }
-
 

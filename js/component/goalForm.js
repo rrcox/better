@@ -127,20 +127,7 @@ class GoalForm extends HTMLElement {
             changedValues.push(newGoal);
         }
     
-        console.log("originalValue=",originalValues);
-        console.log("changedValue=",changedValues);
         updateAppValues(originalValues, changedValues, 'goalFormSubmitClick', this);
-
-        // const update = async () => {
-        //     store.setState('values', changedValues);
-        //     await model.updateValues(originalValues, changedValues);
-        //     this.dispatchEvent(
-        //         new CustomEvent(
-        //             'goalFormSubmitClick', 
-        //             { bubbles: true }
-        //     ));
-        // }
-        // update();
     
         return false;
     }    
@@ -156,13 +143,6 @@ function addGoal(){
     label.value = "";
     target.value = "";
     actual.value = "";
-}
-
-function cleanup(event) {
-    console.log("clicked...");
-    event.stopPropagation();
-    removeDropdown();
-    // document.removeEventListener("click", cleanup);
 }
 
 customElements.define("goal-form", GoalForm);

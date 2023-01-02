@@ -1,5 +1,5 @@
-import { drawBarChart, getMaxProportion } from "../library.js";
 import store from "../store/store.js";
+import { drawBarChart, getMaxProportion, inBars } from "../library.js";
 
 class BarChart extends HTMLElement {
     constructor() {
@@ -41,9 +41,7 @@ class BarChart extends HTMLElement {
         const canvas = document.getElementById('canvas');
         const context = canvas.getContext('2d');
         
-        // const values = JSON.parse(localStorage.getItem("values") || "[]");
         const values = store.getState('values');
-        // console.log("barChart values:", values);
         const maxProportion = getMaxProportion(values);
 
         drawBarChart(values, chartHeight, chartWidth, maxProportion, context, withAnimation);  
@@ -57,33 +55,22 @@ class BarChart extends HTMLElement {
         canvas.addEventListener("click", (event) => {
             let x = event.offsetX;
             let y = event.offsetY;
-            
-            values.forEach(value => {
-                let tx = value.targetLocation.x;
-                let ty = value.targetLocation.y;
-                let tw = value.targetLocation.w;
-                let th = value.targetLocation.h;
-                let ax = value.actualLocation.x;
-                let ay = value.actualLocation.y;
-                let aw = value.actualLocation.w;
-                let ah = value.actualLocation.h;
 
-                if ((x >= tx && x <= tx + tw && y >= ty && y <= ty + th) ||
-                    (x >= ax && x <= ax + aw && y >= ay && y <= ay + ah)) 
-                {
-                    this.dispatchEvent(
-                        new CustomEvent(
-                            'barChartClick', 
-                            { 
-                                bubbles: true, 
-                                detail: {
-                                    id: value.id, 
-                                    label: value.label,
-                                    target: value.target,
-                                    actual: value.actual
-                    }}));
-                }
-            })
+            const value = inBars(x, y, values);
+
+            if (value) {
+                this.dispatchEvent(
+                    new CustomEvent(
+                        'barChartClick', 
+                        { 
+                            bubbles: true, 
+                            detail: {
+                                id: value.id, 
+                                label: value.label,
+                                target: value.target,
+                                actual: value.actual
+                }}));
+            }
         });
 
         canvas.addEventListener("mousemove", (event) => {
@@ -91,65 +78,11 @@ class BarChart extends HTMLElement {
             let y = event.offsetY;
             let cursorType = 'default';
 
-            for (let i = 0; i < values.length; i++) {
-                let value = values[i];
-
-                let tx = value.targetLocation.x;
-                let ty = value.targetLocation.y;
-                let tw = value.targetLocation.w;
-                let th = value.targetLocation.h;
-                let ax = value.actualLocation.x;
-                let ay = value.actualLocation.y;
-                let aw = value.actualLocation.w;
-                let ah = value.actualLocation.h;
-
-                if ((x >= tx && x <= tx + tw && y >= ty && y <= ty + th) ||
-                    (x >= ax && x <= ax + aw && y >= ay && y <= ay + ah)) 
-                {
-                    cursorType = 'pointer';
-                    break;
-                }
+            if (inBars(x, y, values)) {
+                cursorType = 'pointer';                
             }
-            
+
             this.style.cursor = cursorType;
-
-            // values.every(value => {
-            //     let tx = value.targetLocation.x;
-            //     let ty = value.targetLocation.y;
-            //     let tw = value.targetLocation.w;
-            //     let th = value.targetLocation.h;
-            //     let ax = value.actualLocation.x;
-            //     let ay = value.actualLocation.y;
-            //     let aw = value.actualLocation.w;
-            //     let ah = value.actualLocation.h;
-
-            //     if ((x >= tx && x <= tx + tw && y >= ty && y <= ty + th) ||
-            //         (x >= ax && x <= ax + aw && y >= ay && y <= ay + ah)) 
-            //     {
-            //         console.log("in bar");
-            //         inShape = true;
-            //         cursorType = 'pointer';
-            //         return false;
-
-            //         // this.style.cursor = 'pointer';
-            //         // return false;    
-            //         // this.dispatchEvent(
-            //         //     new CustomEvent(
-            //         //         'barChartClick', 
-            //         //         { 
-            //         //             bubbles: true, 
-            //         //             detail: {
-            //         //                 id: value.id, 
-            //         //                 label: value.label,
-            //         //                 target: value.target,
-            //         //                 actual: value.actual
-            //         // }}));
-            //     }                 
-            // })
-
-            // if (inShape) {
-            //     this.style.cursor = cursorType;
-            // }
         });
     }
 }

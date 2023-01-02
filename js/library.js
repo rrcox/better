@@ -205,11 +205,8 @@ export function cloneObjectArray(original) {
 export function deleteGoal(element) {
     try{
         const id = document.querySelector('#id').textContent;
-        console.log("id:",id);
         const originalValues = store.getState('values');
         const changedValues = originalValues.filter(value => value.id !== id);
-        console.log("originalValue=",originalValues);
-        console.log("changedValue=",changedValues);
         updateAppValues(originalValues, changedValues, "goalDeleteClick", element);
     } catch(error) {
         console.error("Error deleting document:", error);
@@ -218,7 +215,6 @@ export function deleteGoal(element) {
 
 export function updateAppValues (originalValues, changedValues, customEvent, element) {
     const update = async () => {
-        console.log('"element (this):',element);
         store.setState('values', changedValues);
         await model.updateValues(originalValues, changedValues);
         element.dispatchEvent(
@@ -231,7 +227,6 @@ export function updateAppValues (originalValues, changedValues, customEvent, ele
 }
 
 export function renderDropdown(pathname) {
-    console.log("render dropdown...")
     const menu = document.querySelector('.right ');
     const choices = document.createElement('div');
     choices.className = "choices";
@@ -242,22 +237,28 @@ export function renderDropdown(pathname) {
             const choice1 = document.createElement('div');
             choice1.className = "choice";
             choice1.textContent = "Delete Goal";
+
             const choice2 = document.createElement('div');
             choice2.className = "choice";
             choice2.textContent = "Other Stuff";
+            
             choices.appendChild(choice1);
             choices.appendChild(choice2);
 
             choice1.addEventListener("click", event => {
-                console.log("currentTarget:",event.currentTarget);
-                console.log("target:",event.target.parentNode);
                 
-                // event.stopPropagation();
+                //-------------------------------------------------------------
+                // Stop the click event from bubbling up to the page click
+                // handler and removing the dropdown menu and associated event
+                // listener before the goal is deleted. The deleteGoal()
+                // function dispatches a synthetic event that is handled by
+                // the app router and puts the app on the correct page after
+                // the goal is deleted.
+                //-------------------------------------------------------------
+
+                event.stopPropagation();
                 deleteGoal(choice1);
             });
-            
-            // document.addEventListener("click", );
-
             break;
     }
 }
@@ -281,4 +282,25 @@ export function toggleFullScreen(path) {
         caption.textContent = "Full Screen"
         document.exitFullscreen();
     }
+}
+
+export function inBars(x, y, values) {
+    for (let i = 0; i < values.length; i++) {
+        let value = values[i];
+        let tx = value.targetLocation.x;
+        let ty = value.targetLocation.y;
+        let tw = value.targetLocation.w;
+        let th = value.targetLocation.h;
+        let ax = value.actualLocation.x;
+        let ay = value.actualLocation.y;
+        let aw = value.actualLocation.w;
+        let ah = value.actualLocation.h;
+
+        if ((x >= tx && x <= tx + tw && y >= ty && y <= ty + th) ||
+            (x >= ax && x <= ax + aw && y >= ay && y <= ay + ah)) {
+            return value;
+        }
+    }
+
+    return null;
 }

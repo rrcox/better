@@ -56,7 +56,7 @@ main {
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
-    height: 80vh;
+    height: 87vh;
 }
 
 /*****************************************************************************/
@@ -69,7 +69,7 @@ footer {
     grid-template-rows: 1fr 1fr;
     justify-content: center;
     background-color: #2962FF;
-    height: 15vh;
+    height: 8vh;
 
     min-width: 100%;
 }
@@ -117,14 +117,14 @@ footer .right {
     margin-top: -6px;
 }
 
-.copyright {
+/* .copyright {
   grid-row: 2/3;
   justify-self: center;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   color: darkgray;
   font-size: 0.7rem;
   margin-top: 25px;
-}
+} */
 
 bar-chart {
     display: flex;
