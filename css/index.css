@@ -31,7 +31,7 @@ body::backdrop {
 /* Header.                                                                   */
 /*****************************************************************************/
 
-header {
+app-header {
     display: flex;
     gap: 10px;
     background-color: #2962FF;
@@ -41,7 +41,7 @@ header {
     align-items: center;
 }
 
-header div {    
+app-header div {    
     font-size: 1.5rem;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     height: 70%;

@@ -1,10 +1,10 @@
+import appTitle from "./view/appTitle.js";
+import appHeader from "./view/appHeader.js";
+import appFooter from "./view/appFooter.js";
 import home from "./view/home.js";
 import dashboard from "./view/dashboard.js";
 import goal from "./view/goal.js";
 import dump from "./view/dump.js";
-import appFooter from "./view/appFooter.js";
-import title from "./snippet/title.js";
-import header from "./snippet/header.js";
 import model from "./model.js";
 import store from "./store/store.js";
 import { removeDropdown, toggleFullScreen } from "./library.js";
@@ -18,13 +18,14 @@ store.setState('values', []);
 // store.setState('env', 'dev');
 store.setState('env', 'prod');
 
+
 //-----------------------------------------------------------------------------
 // Load data.
 //-----------------------------------------------------------------------------
 
 // Test scenario
 // let values = [
-//     {order: 1, label: 'Walking', target: 10, actual:  8 },
+    //     {order: 1, label: 'Walking', target: 10, actual:  8 },
 //     {order: 2, label: 'Situps',  target: 50, actual: 60 },
 //     {order: 3, label: 'Pushups', target: 25, actual: 23 },
 //     {order: 4, label: 'Chinups', target: 10, actual:  4 },
@@ -46,13 +47,17 @@ const load = async () => {
 load();
 
 //-----------------------------------------------------------------------------
-// Initial base render.
+// Get path path based on environment.
 //-----------------------------------------------------------------------------
 
 const path = store.getState('env') === 'dev' ? './' : './better/';
 
-apptitle.innerHTML = title();
-appheader.innerHTML = header();
+//-----------------------------------------------------------------------------
+// Initial base render.
+//-----------------------------------------------------------------------------
+
+apptitle.innerHTML = appTitle();
+appheader.innerHTML = appHeader();
 appfooter.innerHTML = appFooter(path);
 
 //-----------------------------------------------------------------------------

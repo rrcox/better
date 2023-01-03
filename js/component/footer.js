@@ -1,5 +1,4 @@
-import { cloneObjectArray, removeDropdown, updateAppValues, renderDropdown } from "../library.js";
-import store from "../store/store.js";
+import { removeDropdown, renderDropdown } from "../library.js";
 
 class Footer extends HTMLElement {
     constructor() {
@@ -53,17 +52,21 @@ class Footer extends HTMLElement {
     addEventListeners() {
         document.querySelector('body')
             .addEventListener( "click", event => {
+                const isOnPage = location.pathname === "/goal";
                 const isMenuElement = event.target.parentElement.className  === "menu";
                 const isMenuShowing = document.querySelectorAll('div.choices').length > 0;
-                if (isMenuElement) {
-                    if (isMenuShowing) {
-                        removeDropdown();
+                
+                if (isOnPage){
+                    if (isMenuElement) {
+                        if (isMenuShowing) {
+                            removeDropdown();
+                        } else {
+                            renderDropdown(location.pathname);
+                        }   
                     } else {
-                        renderDropdown('/goal');
-                    }   
-                } else {
-                    if (isMenuShowing) {
-                        removeDropdown();
+                        if (isMenuShowing) {
+                            removeDropdown();
+                        }
                     }
                 }
             });

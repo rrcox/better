@@ -4,23 +4,26 @@ import { drawBarChart, getMaxProportion, inBars } from "../library.js";
 class BarChart extends HTMLElement {
     constructor() {
         super();
-        this.resize();
-        this.addResizeListener();
+        this.resize(window.innerWidth, window.innerHeight);
+        this.boundResizeHandler = this.barChartResize.bind(this);
     }
     
-    addResizeListener() {
-        window.addEventListener("resize", (event) => {
-            this.resize(false);
-        });
+    connectedCallback() {
+        window.addEventListener("resize", this.boundResizeHandler);
     }
 
-    resize(withAnimation = true) {
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
-        
-        const chartWidth = this.width * 0.8;
-        const chartHeight = this.height * 0.4;
-        
+    disconnectedCallback() {
+        window.removeEventListener("resize", this.boundResizeHandler);
+    }
+
+    barChartResize() {
+        this.resize(window.innerWidth, window.innerHeight, false);
+    }
+
+    resize(width, height, withAnimation = true) {
+        const chartWidth = width * 0.8;
+        const chartHeight = height * 0.4;
+
         this.innerHTML =  `
             <div id="canvas-div">
                 <canvas 

@@ -91,7 +91,6 @@ class GoalForm extends HTMLElement {
         form.addEventListener("submit", this.processForm);
         const addButton = document.getElementById('addGoal');
         addButton.addEventListener("click", addGoal);
-        // document.addEventListener("click", cleanup);
     }
     
     processForm(e) {
